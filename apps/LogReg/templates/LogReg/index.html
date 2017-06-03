@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login and Registration</title>
+  </head>
+  <body>
+    <main>
+      {% if messages %}
+      {% for message in messages %}
+      <p>{{message}}</p>
+      {% endfor%}
+      {% endif %}
+      <section>
+        <form action="{% url 'logreg:register' %}" method="post">
+          {% csrf_token %}
+          <input type="text" name="first_name" placeholder="First Name">
+          <input type="text" name="last_name" placeholder="Last Name">
+          <input type="email" name="email" placeholder="Something@thisplace.com">
+          <input type="password" name="password" placeholder="Password ********">
+          <input type="password" name="confirmpass" placeholder="Confirm Password">
+          <button type="submit" name="attempt" value="register">Register</button>
+        </form>
+      </section>
+      <section>
+        <form action="{% url 'logreg:login' %}" method="post">
+          {% csrf_token %}
+          <input type="email" name="email" placeholder="Something@thisplace.com">
+          <input type="password" name="password" placeholder="Password ********">
+          <button type="submit" name="attempt" value="login" class='btn'>Login</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

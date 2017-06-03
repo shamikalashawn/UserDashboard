@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Edit Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+  </head>
+  <body>
+    <nav>
+      <div class="left">
+        <h2>Test App</h2>
+        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+        <a href="{% url 'dashboard:profile' %}">Profile</a>
+      </div>
+      <div class="right">
+        <a href="{% url 'logreg:logout' %}">Log off</a>
+      </div>
+    </nav>
+    <h2>Edit Profile</h2>
+    <div id="flash_messages">
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error">{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="edit_info">
+      <p class='title'>Edit Information</p>
+      <form action="{% url 'dashboard:edit_info' request.session.user.id %}" method="post">
+        {% csrf_token %}
+        <p>Email Address:</p>
+        <input type="text" name="email" placeholder="{{request.session.user.email}}">
+        <p>First Name:</p>
+        <input type="text" name="first_name" placeholder="{{request.session.user.first_name}}">
+        <p>Last Name:</p>
+        <input type="text" name="last_name" placeholder="{{request.session.user.last_name}}">
+        <button type="submit" name="page" value="normal">Save</button>
+      </form>
+    </div>
+    <div class="change_password">
+      <p class='title'>Change Password</p>
+      <form action="{% url 'dashboard:edit_password' request.session.user.id %}" method="post">
+        {% csrf_token %}
+        <p>Password:</p>
+        <input type="password" name="password" placeholder="*********">
+        <input type="password" name="password_confirmation" placeholder="*********">
+        <button type="submit" name="page" value="normal">Update Password</button>
+      </form>
+    </div>
+    <p>Edit descrption</p>
+    <form action="{% url 'dashboard:edit_description' request.session.user.id %}" method="post">
+      {% csrf_token %}
+      <textarea name="description" rows="8" cols="80">{{request.session.user.description}}</textarea>
+      <button type="submit" name="page" value="normal">Save</button>
+    </form>
+  </body>
+</html>

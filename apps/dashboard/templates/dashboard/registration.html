@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+  </head>
+  <body>
+    <nav>
+      <div class="left">
+        <h2>Test App</h2>
+        <a href="{% url 'dashboard:home' %}">Home</a>
+      </div>
+      <div class="right">
+        <a href="{% url 'dashboard:sign_in' %}">Sign In</a>
+      </div>
+    </nav>
+    <h2>Register</h2>
+    <div id="flash_messages">
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error">{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+      <form action="{% url 'logreg:register' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="first_name" placeholder="First Name">
+        <input type="text" name="last_name" placeholder="Last Name">
+        <input type="email" name="email" placeholder="email">
+        <p>Password must be at least 8 characters.</p>
+        <input type="password" name="password" placeholder="password ********">
+        <input type="password" name="password_confirmation" placeholder="password confirmation">
+        <button class="btn btn-info" type="submit" id="register_button" name="attempt" value="register">Register</button>
+      </form>
+      <footer>
+        <a href="{% url 'dashboard:sign_in' %}">Already have an account? Login</a>
+      </footer>
+  </body>
+</html>

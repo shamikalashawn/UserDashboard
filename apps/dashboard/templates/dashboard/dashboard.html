@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+  </head>
+  <body>
+    <nav>
+      <div class="left">
+        <h2>Test App</h2>
+        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+        <a href="{% url 'dashboard:profile' %}">Profile</a>
+      </div>
+      <div class="right">
+        <a href="{% url 'logreg:logout' %}">Log off</a>
+      </div>
+    </nav>
+    <h2>All Users</h2>
+    <table>
+      <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>created_at</th>
+        <th>user_level</th>
+      </thead>
+      <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{user.id}}</td>
+          <td><a href="{% url 'dashboard:show_user' user.id %}">{{user.first_name}} {{user.last_name}}</a></td>
+          <td>{{user.email}}</td>
+          <td>{{user.created_at}}</td>
+          <td>{{user.user_level}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

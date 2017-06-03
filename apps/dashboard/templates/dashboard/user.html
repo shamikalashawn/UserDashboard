@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>User Information</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+  </head>
+  <body>
+    <nav>
+      <div class="left">
+        <h2>Test App</h2>
+        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+        <a href="{% url 'dashboard:profile' %}">Profile</a>
+      </div>
+      <div class="right">
+        <a href="{% url 'logreg:logout' %}">Log off</a>
+      </div>
+    </nav>
+    <!-- user info then messages-->
+    <h2>{{owner.first_name}} {{owner.last_name}}</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td>Registered at: </td>
+          <td>{{owner.created_at}}</td>
+        </tr>
+        <tr>
+          <td>User ID:</td>
+          <td>#{{owner.id}}</td>
+        </tr>
+        <tr>
+          <td>Email address:</td>
+          <td>{{owner.email}}</td>
+        </tr>
+        <tr>
+          <td>Description: </td>
+          <td>{{owner.description}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Leave a message for {{owner.first_name}}</h2>
+    <div id="flash_messages">
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error">{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <form action="{% url 'dashboard:message' owner_id=owner.id %}" method="post">
+      {% csrf_token %}
+      <textarea name="message" rows="8" cols="80"></textarea>
+      <button type="submit" name="button">Post</button>
+    </form>
+    {% for message in all_messages %}
+    <div class="label">
+      <a href="{% url 'dashboard:show_user' message.author.id %}" class='label_left'>{{message.author.first_name}} {{message.author.last_name}}</a>
+      <p class="label_right">{{message.created_at|timesince}} ago</p>
+    </div>
+    <div class="message">
+      <p>{{message.message}}</p>
+      {% for comment in comments %}
+      <div class="comments">
+        {% if message.id == comment.message.id %}
+        <div class="label">
+          <a href="{% url 'dashboard:show_user' message.author.id %}">{{comment.author.first_name}} {{comment.author.last_name}}</a>
+          <p class="label_right">{{comment.created_at|timesince}} ago</p>
+        </div>
+        <div class="comment">
+          <p>{{comment.comment}}</p>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <div id="flash_messages">
+        {% if messages %}
+          {% for message in messages %}
+            <p class="error">{{message}}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <form action="{% url 'dashboard:comment' owner_id=owner.id message_id=message.id %}" method="post">
+        {% csrf_token %}
+        <textarea name="comment" rows="4" cols="80">write a message here</textarea>
+        <button type="submit" name="button">Post</button>
+      </form>
+    </div>
+    {% endfor %}
+  </body>
+</html>

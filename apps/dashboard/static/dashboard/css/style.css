@@ -1,0 +1,38 @@
+/* nav bar styling */
+.left, .right{
+  display: inline-block;
+}
+.error{
+  color: red;
+}
+
+/* top div styling */
+div h, button{
+  display: inline-block;
+}
+
+
+/* admin dashboard styling */
+.remove_link{
+  display: block;
+}
+
+/* user information page styling */
+.label_left, .label_right{
+  /* make p tags so that name is on left and timesince is on right */
+}
+.label_right{
+  font-style: italic;
+}
+.message{
+  border: 1px solid black;
+  width: 60%;
+  height: 50px;
+}
+.comment{
+  margin-left: 50px;
+  margin-top: 20px;
+  border: 1px solid black;
+  width: 100%;
+  height: 50px;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>New User</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+  </head>
+  <body>
+    <nav>
+      <div class="left">
+        <h2>Test App</h2>
+        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+        <a href="{% url 'dashboard:profile' %}">Profile</a>
+      </div>
+      <div class="right">
+        <a href="{% url 'logreg:logout' %}">Log off</a>
+      </div>
+    </nav>
+    <div class="top">
+      <h2>Add a new user</h2>
+      <button type="button" name="button"><a href="{% url 'dashboard:dashboard' %}">Return to Dashboard</a></button>
+    </div>
+    <div id="flash_messages">
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error">{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <form action="{% url 'dashboard:add_user' %}" method="post">
+      {% csrf_token %}
+      <p>Email Address:</p>
+      <input type="email" name="email" placeholder="email">
+      <p>First Name:</p>
+      <input type="text" name="first_name" placeholder="First Name">
+      <p>Last Name:</p>
+      <input type="text" name="last_name" placeholder="Last Name">
+      <p>Password must be at least 8 characters.</p>
+      <input type="password" name="password" placeholder="password ********">
+      <p>Password Confirmation</p>
+      <input type="password" name="password_confirmation" placeholder="password confirmation">
+      <button class="btn btn-info" type="submit">Create</button>
+    </form>
+  </body>
+</html>
